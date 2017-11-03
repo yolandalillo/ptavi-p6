@@ -23,8 +23,7 @@ files = ['README.md',
          'check-p6.py',
          'mp32rtp',
          '.git',
-         'cancion.mp3'
-]
+         'cancion.mp3']
 
 
 if len(sys.argv) != 2:
