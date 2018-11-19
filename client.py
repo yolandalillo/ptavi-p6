@@ -27,15 +27,11 @@ try:
             my_socket.send(bytes(line, 'utf-8'))
             data = my_socket.recv(1024)
             print(data.decode('utf-8'))
-            codigo = data.decode('utf-8').split(" ") # Codigo es ['SIP/2.0', '200', 'OK\r\n\r\n']
-            print(codigo)
-            if codigo[-2] == '200':
-                line = ('ACK' + ' sip:' + RECEPTOR + ' SIP/2.0\r\n\r\n')
-                print(line)
-                my_socket.send(bytes(line, 'utf-8'))
+            if METHOD == 'INVITE' and data.decode('utf-8').split()[-2] == '200':
+                linea = ('ACK' + ' sip:' + sip_address + ' SIP/2.0\r\n\r\n')
+                my_socket.send(bytes(linea, 'utf-8'))
                 data = my_socket.recv(1024)
-            else:
-                print(codigo)
+                
         print("Terminando socket...")
 
 except ConnectionRefusedError:
