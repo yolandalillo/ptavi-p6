@@ -22,26 +22,37 @@ class EchoHandler(socketserver.DatagramRequestHandler):
 
     def handle(self):
         # Escribe dirección y puerto del cliente (de tupla client_address)
+
         while 1:
             # Leyendo línea a línea lo que nos envía el cliente
             line = self.rfile.read()
-            print("El cliente nos manda " + line.decode('utf-8'))
             linea = line.decode('utf-8').split(" ")
-            method = linea [0]
-            print(linea)
+            method = linea[0]
 
-            try:
-                if method =='INVITE':
-                    self.wfile.write(b"SIP/2.0 100 Trying SIP/2.0 180 Ringing SIP/2.0 200 OK \r\n\r\n")
-                if method == 'BYE':
-                    self.wfile.write(b"SIP/2.0 200 OK\r\n\r\n")
-                if method == 'ACK':
-                    aEjecutar = 'mp32rtp -i 127.0.0.1 -p 23032 < ' + FICH
-                    print("Vamos a ejecutar", aEjecutar)
-                    os.system(aEjecutar)
-                    print("Enviamos cancion")
-            except method != ('INVITE' or 'BYE' or 'ACK'):
+            if method =='INVITE':
+                print("El cliente nos envía " + line.decode('utf-8'))
+                self.wfile.write(b"SIP/2.0 100 Trying\r\n\r\n")
+                self.wfile.write(b"SIP/2.0 180 Ringing\r\n\r\n")
+                self.wfile.write(b"SIP/2.0 200 OK\r\n\r\n")
+                break
+
+            if method == 'BYE':
+                print("El cliente nos envía " + line.decode('utf-8'))
+                self.wfile.write(b"SIP/2.0 200 OK\r\n\r\n")
+                break
+
+
+            if method == 'ACK':
+                print("El cliente nos envía " + line.decode('utf-8'))
+                aEjecutar = 'mp32rtp -i 127.0.0.1 -p 23032 < ' + FICH
+                print("Vamos a ejecutar", aEjecutar)
+                os.system(aEjecutar)
+                print("Enviamos canción")
+
+            if method != ('INVITE' or 'BYE' or 'ACK'):
                 self.wfile.write(b"SIP/2.0 405 Method Not Allowed\r\n\r\n")
+                break
+                
 
             # Si no hay más líneas salimos del bucle infinito
             if not line:
