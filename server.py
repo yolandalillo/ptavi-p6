@@ -50,12 +50,14 @@ class EchoHandler(socketserver.DatagramRequestHandler):
 
             if method != ('INVITE' or 'BYE' or 'ACK'):
                 self.wfile.write(b"SIP/2.0 405 Method Not Allowed\r\n\r\n")
-                break
+
+            elif InputError:
+                self.wfile.write( b"SIP/2.0 400 Bad Request\r\n\r\n")
+
 
             # Si no hay más líneas salimos del bucle infinito
             if not line:
                 break
-
 
 if __name__ == "__main__":
     # Creamos servidor de eco y escuchamos
