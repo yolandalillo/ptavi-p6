@@ -15,11 +15,11 @@ try:
 except (IndexError, ValueError):
     sys.exit("Usage: python3 server.py IP port audio_file")
 
+
 class EchoHandler(socketserver.DatagramRequestHandler):
     """
     Echo server class
     """
-
     def handle(self):
         # Escribe dirección y puerto del cliente (de tupla client_address)
 
@@ -29,7 +29,7 @@ class EchoHandler(socketserver.DatagramRequestHandler):
             linea = line.decode('utf-8').split(" ")
             method = linea[0]
 
-            if method =='INVITE':
+            if method == 'INVITE':
                 print("El cliente nos envía " + line.decode('utf-8'))
                 self.wfile.write(b"SIP/2.0 100 Trying\r\n\r\n")
                 self.wfile.write(b"SIP/2.0 180 Ringing\r\n\r\n")
@@ -41,7 +41,6 @@ class EchoHandler(socketserver.DatagramRequestHandler):
                 self.wfile.write(b"SIP/2.0 200 OK\r\n\r\n")
                 break
 
-
             if method == 'ACK':
                 print("El cliente nos envía " + line.decode('utf-8'))
                 aEjecutar = 'mp32rtp -i 127.0.0.1 -p 23032 < ' + FICH
@@ -52,11 +51,11 @@ class EchoHandler(socketserver.DatagramRequestHandler):
             if method != ('INVITE' or 'BYE' or 'ACK'):
                 self.wfile.write(b"SIP/2.0 405 Method Not Allowed\r\n\r\n")
                 break
-                
 
             # Si no hay más líneas salimos del bucle infinito
             if not line:
                 break
+
 
 if __name__ == "__main__":
     # Creamos servidor de eco y escuchamos
