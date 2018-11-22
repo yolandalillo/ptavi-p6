@@ -8,11 +8,11 @@ import socket
 import sys
 
 try:
-    METHOD = sys.argv[1] #Método SIP
-    RECEPTOR = sys.argv[2].split(':')[0]  # Receptor@IP.
-    IP = RECEPTOR.split('@')[-1] # Dirección IP.
-    PORT = int(sys.argv[2].split(':')[1]) # PuertoSIP.
-    
+    METHOD = sys.argv[1]  # Método SIP
+    RECEPTOR = sys.argv[2].split(':')[0]   # Receptor@IP.
+    IP = RECEPTOR.split('@')[-1]  # Dirección IP.
+    PORT = int(sys.argv[2].split(':')[1])  # PuertoSIP.
+
 except (IndexError, ValueError):
     sys.exit("Usage: python3 client.py method receiver@IP:SIPport")
 
@@ -27,11 +27,11 @@ try:
             my_socket.send(bytes(line, 'utf-8'))
             data = my_socket.recv(1024)
             print(data.decode('utf-8'))
-            if METHOD == 'INVITE' and data.decode('utf-8').split()[-2] == '200':
-                linea = ('ACK' + ' sip:' + sip_address + ' SIP/2.0\r\n\r\n')
+            if METHOD == 'INVITE'\
+                    and data.decode('utf-8').split()[-2] == '200':
+                linea = ('METHOD' + ' sip:' + IP + ' SIP/2.0\r\n\r\n')
                 my_socket.send(bytes(linea, 'utf-8'))
                 data = my_socket.recv(1024)
-                
         print("Terminando socket...")
 
 except ConnectionRefusedError:
