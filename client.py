@@ -29,7 +29,7 @@ try:
             print(data.decode('utf-8'))
             if METHOD == 'INVITE'\
                     and data.decode('utf-8').split()[-2] == '200':
-                linea = ('METHOD' + ' sip:' + IP + ' SIP/2.0\r\n\r\n')
+                linea = ('ACK' + ' sip:' + RECEPTOR + ' SIP/2.0\r\n\r\n')
                 my_socket.send(bytes(linea, 'utf-8'))
                 data = my_socket.recv(1024)
         print("Terminando socket...")
