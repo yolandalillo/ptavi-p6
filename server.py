@@ -36,22 +36,22 @@ class EchoHandler(socketserver.DatagramRequestHandler):
                 self.wfile.write(b"SIP/2.0 200 OK\r\n\r\n")
                 break
 
-            if method == 'BYE':
+            elif method == 'BYE':
                 print("El cliente nos envía " + line.decode('utf-8'))
                 self.wfile.write(b"SIP/2.0 200 OK\r\n\r\n")
                 break
 
-            if method == 'ACK':
+            elif method == 'ACK':
                 print("El cliente nos envía " + line.decode('utf-8'))
                 aEjecutar = 'mp32rtp -i 127.0.0.1 -p 23032 < ' + FICH
                 print("Vamos a ejecutar", aEjecutar)
                 os.system(aEjecutar)
                 print("Enviamos canción")
 
-            if method != ('INVITE' or 'BYE' or 'ACK'):
+            elif method != ('INVITE' or 'BYE' or 'ACK'):
                 self.wfile.write(b"SIP/2.0 405 Method Not Allowed\r\n\r\n")
 
-            elif InputError:
+            else:
                 self.wfile.write(b"SIP/2.0 400 Bad Request\r\n\r\n")
             # Si no hay más líneas salimos del bucle infinito
             if not line:
