@@ -1,8 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-"""
-Clase (y programa principal) para un servidor de eco en UDP simple
-"""
+"""Clase (y programa principal) para un servidor de eco en UDP simple."""
 
 import socketserver
 import sys
@@ -17,14 +15,12 @@ except (IndexError, ValueError):
 
 
 class EchoHandler(socketserver.DatagramRequestHandler):
-    """
-    Echo server class
-    """
-    def handle(self):
-        # Escribe dirección y puerto del cliente (de tupla client_address)
+    """Echo server class."""
 
+    def handle(self):
+        """Escribe dirección y puerto del cliente (de tupla client_address)."""
         while 1:
-            # Leyendo línea a línea lo que nos envía el cliente
+            # Leyendo línea a línea lo que nos envía el cliente.
             line = self.rfile.read()
             linea = line.decode('utf-8').split(" ")
             method = linea[0]
