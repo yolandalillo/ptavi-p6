@@ -52,16 +52,15 @@ class EchoHandler(socketserver.DatagramRequestHandler):
                 self.wfile.write(b"SIP/2.0 405 Method Not Allowed\r\n\r\n")
 
             elif InputError:
-                self.wfile.write( b"SIP/2.0 400 Bad Request\r\n\r\n")
-
-
+                self.wfile.write(b"SIP/2.0 400 Bad Request\r\n\r\n")
             # Si no hay más líneas salimos del bucle infinito
             if not line:
                 break
 
+
 if __name__ == "__main__":
     # Creamos servidor de eco y escuchamos
-    serv = socketserver.UDPServer(('', 6001), EchoHandler)
+    serv = socketserver.UDPServer(('', PORT), EchoHandler)
     print("Listening...")
     try:
         """Creamos el servidor"""
